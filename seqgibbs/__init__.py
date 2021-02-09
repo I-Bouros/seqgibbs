@@ -16,4 +16,4 @@ number of cases of infections by day during an outbreak of the influenza virus.
 from .version_info import VERSION_INT, VERSION  # noqa
 
 # Import main classes
-    # noqa
+from .probabilities import OneDimSampler    # noqa
