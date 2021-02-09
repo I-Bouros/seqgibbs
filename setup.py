@@ -66,12 +66,7 @@ setup(
     install_requires=[
         # Dependencies go here!
         'numpy>=1.8',
-        'dash>=1.18',
-        'dash_bootstrap_components',
-        'dash_daq',
-        'dash_defer_js_import',
         'pandas',
-        'plotly',
         'scipy'
     ],
     extras_require={
