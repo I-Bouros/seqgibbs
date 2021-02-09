@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+
+<html lang="En">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Models &#8212; branchpro 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Simulation" href="simulation.html" />
+    <link rel="prev" title="Core classes and methods" href="core_classes_and_methods.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<p>Overview:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#branchpro.BranchProModel" title="branchpro.BranchProModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BranchProModel</span></code></a></p></li>
+</ul>
+<div class="section" id="branch-process-model">
+<h2>Branch Process model<a class="headerlink" href="#branch-process-model" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="branchpro.BranchProModel">
+<em class="property">class </em><code class="sig-prename descclassname">branchpro.</code><code class="sig-name descname">BranchProModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">initial_r</span></em>, <em class="sig-param"><span class="n">serial_interval</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/models.html#BranchProModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.BranchProModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>BranchProModel Class:
+Class for the models following a Branching Processes behaviour.
+It inherits from the <cite>ForwardModel`</cite> class.</p>
+<p>In the branching process model, we track the number of cases
+registered each day, I_t, also known as the “incidence” at time t.</p>
+<p>The incidence at time t is modelled by a random variable distributed
+according to a Poisson distribution with a mean that depends on previous
+number of cases, according to the following formula:</p>
+<div class="math notranslate nohighlight">
+\[E(I_{t}^{\text(local)}|I_0, I_1, \dots I_{t-1}, w_{s}, R_{t}) =
+    R_{t}\sum_{s=1}^{t}I_{t-s}w_{s}\]</div>
+<p>Always apply method <a class="reference internal" href="#branchpro.BranchProModel.set_r_profile" title="branchpro.BranchProModel.set_r_profile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_r_profile()</span></code></a> before calling
+<a class="reference internal" href="#branchpro.BranchProModel.simulate" title="branchpro.BranchProModel.simulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BranchProModel.simulate()</span></code></a> for a change of R_t profile!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_r</strong> – (numeric) Value of the reproduction number at the beginning
+of the epidemic</p></li>
+<li><p><strong>serial_interval</strong> – (list) Unnormalised probability distribution of that the recipient
+first displays symptoms s days after the infector first displays
+symptoms.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="branchpro.BranchProModel.get_r_profile">
+<code class="sig-name descname">get_r_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/models.html#BranchProModel.get_r_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.BranchProModel.get_r_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns R_t profile for the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="branchpro.BranchProModel.get_serial_intervals">
+<code class="sig-name descname">get_serial_intervals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/models.html#BranchProModel.get_serial_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.BranchProModel.get_serial_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns serial intervals for the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="branchpro.BranchProModel.set_r_profile">
+<code class="sig-name descname">set_r_profile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_rs</span></em>, <em class="sig-param"><span class="n">start_times</span></em>, <em class="sig-param"><span class="n">last_time</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/models.html#BranchProModel.set_r_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.BranchProModel.set_r_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new R_t profile for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_rs</strong> – sequence of new time-dependent values of the reproduction
+numbers.</p></li>
+<li><p><strong>start_times</strong> – sequence of the first time unit when the corresponding
+indexed value of R_t in new_rs is used. Must be an ordered sequence
+and without duplicates or negative values.</p></li>
+<li><p><strong>last_time</strong> – total evaluation time; optional.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="branchpro.BranchProModel.set_serial_intervals">
+<code class="sig-name descname">set_serial_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">serial_intervals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/models.html#BranchProModel.set_serial_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.BranchProModel.set_serial_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates serial intervals for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>serial_intervals</strong> – New unnormalised probability distribution of that the recipient
+first displays symptoms s days after the infector first displays
+symptoms.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="branchpro.BranchProModel.simulate">
+<code class="sig-name descname">simulate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameters</span></em>, <em class="sig-param"><span class="n">times</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/models.html#BranchProModel.simulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.BranchProModel.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a forward simulation with the given <code class="docutils literal notranslate"><span class="pre">parameters</span></code> and returns a
+time-series with incidence numbers corresponding to the given <code class="docutils literal notranslate"><span class="pre">times</span></code>
+.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> – Initial number of cases.</p></li>
+<li><p><strong>times</strong> – The times at which to evaluate. Must be an ordered sequence,
+without duplicates, and without negative values.
+All simulations are started at time 0, regardless of whether this
+value appears in <code class="docutils literal notranslate"><span class="pre">times</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">branchpro</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core_classes_and_methods.html">Core classes and methods</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#branch-process-model">Branch Process model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Visualisation Apps</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="core_classes_and_methods.html" title="previous chapter">Core classes and methods</a></li>
+      <li>Next: <a href="simulation.html" title="next chapter">Simulation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, SABS-R3-Epidemiology.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/models.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html lang="En">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>branchpro.apps._sliders &#8212; branchpro 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for branchpro.apps._sliders</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Sliders Class</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of BRANCHPRO</span>
+<span class="c1"># (https://github.com/SABS-R3-Epidemiology/branchpro.git) which is released</span>
+<span class="c1"># under the BSD 3-clause license. See accompanying LICENSE.md for copyright</span>
+<span class="c1"># notice and full license details.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">dash_core_components</span> <span class="k">as</span> <span class="nn">dcc</span>
+<span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="_SliderComponent"><a class="viewcode-back" href="../../../apps.html#branchpro._SliderComponent">[docs]</a><span class="k">class</span> <span class="nc">_SliderComponent</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;_SliderComponent Class</span>
+<span class="sd">    Stores slider information for sliders in branchpro Dash app.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sliders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slider_ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="_SliderComponent.add_slider"><a class="viewcode-back" href="../../../apps.html#branchpro._SliderComponent.add_slider">[docs]</a>    <span class="k">def</span> <span class="nf">add_slider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">new_id</span><span class="p">,</span> <span class="n">init_val</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">step_size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new slider with label for the Dash app plot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label</span>
+<span class="sd">            Title text shown above slider.</span>
+<span class="sd">        new_id</span>
+<span class="sd">            ID of slider (internal, not shown in app).</span>
+<span class="sd">        init_val</span>
+<span class="sd">            Initial slider value (default position).</span>
+<span class="sd">        min_val</span>
+<span class="sd">            Minimum (leftmost) slider value.</span>
+<span class="sd">        max_val</span>
+<span class="sd">            Maximum (rightmost) slider value.</span>
+<span class="sd">        step_size</span>
+<span class="sd">            Incremement between slider values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mark_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                                <span class="n">start</span><span class="o">=</span><span class="n">min_val</span><span class="p">,</span>
+                                <span class="n">stop</span><span class="o">=</span><span class="n">max_val</span><span class="o">+</span><span class="n">step_size</span><span class="p">,</span>
+                                <span class="n">step</span><span class="o">=</span><span class="n">step_size</span>
+                                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">mark_list</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="n">mark_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+                                        <span class="n">start</span><span class="o">=</span><span class="n">min_val</span><span class="p">,</span>
+                                        <span class="n">stop</span><span class="o">=</span><span class="n">max_val</span><span class="p">,</span>
+                                        <span class="n">num</span><span class="o">=</span><span class="mi">11</span>
+                                        <span class="p">)</span>
+
+        <span class="n">new_slider</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Slider</span><span class="p">(</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="n">new_id</span><span class="p">,</span>
+                            <span class="nb">min</span><span class="o">=</span><span class="n">min_val</span><span class="p">,</span>
+                            <span class="nb">max</span><span class="o">=</span><span class="n">max_val</span><span class="p">,</span>
+                            <span class="n">value</span><span class="o">=</span><span class="n">init_val</span><span class="p">,</span>
+                            <span class="n">marks</span><span class="o">=</span><span class="p">{</span>
+                                <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">mark_list</span>
+                                <span class="p">},</span>
+                            <span class="n">step</span><span class="o">=</span><span class="n">step_size</span>
+                        <span class="p">)</span>
+                    <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sliders</span> <span class="o">+=</span> <span class="n">new_slider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slider_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_SliderComponent.get_sliders_div"><a class="viewcode-back" href="../../../apps.html#branchpro._SliderComponent.get_sliders_div">[docs]</a>    <span class="k">def</span> <span class="nf">get_sliders_div</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Combines all sliders into a html.Div object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sliders</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_SliderComponent.slider_ids"><a class="viewcode-back" href="../../../apps.html#branchpro._SliderComponent.slider_ids">[docs]</a>    <span class="k">def</span> <span class="nf">slider_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns list of all slider IDs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slider_ids</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">branchpro</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../core_classes_and_methods.html">Core classes and methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apps.html">Visualisation Apps</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, SABS-R3-Epidemiology.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
