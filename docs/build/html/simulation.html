@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html lang="En">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulation &#8212; branchpro 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Visualisation Apps" href="apps.html" />
+    <link rel="prev" title="Models" href="models.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="simulation">
+<h1>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h1>
+<p>Overview:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#branchpro.SimulationController" title="branchpro.SimulationController"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulationController</span></code></a></p></li>
+</ul>
+<div class="section" id="simulationcontroller">
+<h2>SimulationController<a class="headerlink" href="#simulationcontroller" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="branchpro.SimulationController">
+<em class="property">class </em><code class="sig-prename descclassname">branchpro.</code><code class="sig-name descname">SimulationController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">start_sim_time</span></em>, <em class="sig-param"><span class="n">end_sim_time</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/simulation.html#SimulationController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.SimulationController" title="Permalink to this definition">¶</a></dt>
+<dd><p>SimulationController Class:
+Class for the simulation of models in any of the subclasses in the
+<code class="docutils literal notranslate"><span class="pre">ForwardModel</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – (ForwardModel) Instance of the <a class="reference internal" href="core_classes_and_methods.html#branchpro.ForwardModel" title="branchpro.ForwardModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardModel</span></code></a> class used for
+the simulation.</p></li>
+<li><p><strong>start_sim_time</strong> – (integer) Time from which we start running the SimulationController.</p></li>
+<li><p><strong>end_sim_time</strong> – (integer) Time at which we stop running the SimulationController.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Always apply method switch_resolution before calling
+<a class="reference internal" href="#branchpro.SimulationController.run" title="branchpro.SimulationController.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SimulationController.run()</span></code></a> for a change of resolution!</p>
+<dl class="py method">
+<dt id="branchpro.SimulationController.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameters</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/simulation.html#SimulationController.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.SimulationController.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Operates the <code class="docutils literal notranslate"><span class="pre">simulate</span></code> method present in any subclass of the
+<code class="docutils literal notranslate"><span class="pre">ForwardModel</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> – An ordered sequence of parameter values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="branchpro.SimulationController.switch_resolution">
+<code class="sig-name descname">switch_resolution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_points</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/branchpro/simulation.html#SimulationController.switch_resolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#branchpro.SimulationController.switch_resolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the number of points we wish to keep from our simulated sample
+of incidences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_points</strong> – (integer) number of points we wish to keep from our simulated
+sample of incidences.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">branchpro</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core_classes_and_methods.html">Core classes and methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulationcontroller">SimulationController</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Visualisation Apps</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="models.html" title="previous chapter">Models</a></li>
+      <li>Next: <a href="apps.html" title="next chapter">Visualisation Apps</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, SABS-R3-Epidemiology.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/simulation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

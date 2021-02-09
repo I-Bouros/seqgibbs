@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html lang="En">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>branchpro.simulation &#8212; branchpro 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for branchpro.simulation</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># SimulationController Class</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of BRANCHPRO</span>
+<span class="c1"># (https://github.com/SABS-R3-Epidemiology/branchpro.git) which is released</span>
+<span class="c1"># under the BSD 3-clause license. See accompanying LICENSE.md for copyright</span>
+<span class="c1"># notice and full license details.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">branchpro</span> <span class="kn">import</span> <span class="n">ForwardModel</span>
+
+
+<div class="viewcode-block" id="SimulationController"><a class="viewcode-back" href="../../simulation.html#branchpro.SimulationController">[docs]</a><span class="k">class</span> <span class="nc">SimulationController</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;SimulationController Class:</span>
+<span class="sd">    Class for the simulation of models in any of the subclasses in the</span>
+<span class="sd">    ``ForwardModel``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model</span>
+<span class="sd">        (ForwardModel) Instance of the :class:`ForwardModel` class used for</span>
+<span class="sd">        the simulation.</span>
+<span class="sd">    start_sim_time</span>
+<span class="sd">        (integer) Time from which we start running the SimulationController.</span>
+<span class="sd">    end_sim_time</span>
+<span class="sd">        (integer) Time at which we stop running the SimulationController.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Always apply method switch_resolution before calling</span>
+<span class="sd">    :meth:`SimulationController.run` for a change of resolution!</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">start_sim_time</span><span class="p">,</span> <span class="n">end_sim_time</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ForwardModel</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s1">&#39;Model needs to be a subclass of the branchpro.ForwardModel&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="n">start_sim_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_sim_time</span><span class="p">)</span>
+        <span class="n">end_sim_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_sim_time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sim_end_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">start_sim_time</span><span class="p">,</span> <span class="n">end_sim_time</span><span class="p">)</span>
+
+        <span class="c1"># Set default regime &#39;simulate in full&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_regime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">start_sim_time</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">end_sim_time</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SimulationController.switch_resolution"><a class="viewcode-back" href="../../simulation.html#branchpro.SimulationController.switch_resolution">[docs]</a>    <span class="k">def</span> <span class="nf">switch_resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_points</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change the number of points we wish to keep from our simulated sample</span>
+<span class="sd">        of incidences.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num_points</span>
+<span class="sd">            (integer) number of points we wish to keep from our simulated</span>
+<span class="sd">            sample of incidences.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start_sim_time</span><span class="p">,</span> <span class="n">end_sim_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sim_end_points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_regime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="n">start_sim_time</span><span class="p">,</span> <span class="n">end_sim_time</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num_points</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SimulationController.run"><a class="viewcode-back" href="../../simulation.html#branchpro.SimulationController.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Operates the ``simulate`` method present in any subclass of the</span>
+<span class="sd">        ``ForwardModel``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parameters</span>
+<span class="sd">            An ordered sequence of parameter values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_regime</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">branchpro</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../core_classes_and_methods.html">Core classes and methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps.html">Visualisation Apps</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, SABS-R3-Epidemiology.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
