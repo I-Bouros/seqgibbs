@@ -188,7 +188,7 @@ def check_exposed_symbols(module, submodule_names, doc_symbols):
 
         print('For python modules such as numpy you may need to confine the '
               'import to the function scope. If you have created a new'
-              'branchpro submodule, you will need to make %s (doctest) aware'
+              'seqgibbs submodule, you will need to make %s (doctest) aware'
               'of this.'
               % __file__)
         print('FAILED')
