@@ -32,16 +32,26 @@ class OneDimSampler():
     sampler_func_name
         (function) Probability Distribution used to sample new
         value of state at the dimension we require.
+    condition_func_name
+        (function) Function used to compute parameters of the Probability
+        Distribution used by the sampler based on the current state.
 
     """
 
-    def __init__(self, sampler_func_name):
+    def __init__(self, sampler_func_name, condition_func_name):
+        if not callable(sampler_func_name):
+            raise TypeError('The probability distribution of the \
+                sampler needs to be a function.')
+        if not callable(condition_func_name):
+            raise TypeError('The parametrization function of the \
+                sampler needs to be a function.')
         self.sampler_pdf = sampler_func_name
+        self.cond_func = condition_func_name
 
     def sample(self, current_state, loc_update):
         """
-        Set the righthand side (dx/dt) function
-        :param functionName: the function to plug in
+        Sample new state of Gibbs Sampling chain using the
+        current state and updating at one given position
 
         Parameters
         ----------
@@ -56,14 +66,20 @@ class OneDimSampler():
         if np.asarray(current_state).ndim != 1:
             raise ValueError(
                 'Current state values storage format must be 1-dimensional')
-        if len(current_state) <= loc_update:
-            raise ValueError('Sum of serial interval values must be > 0.')
+        if len(current_state) < loc_update:
+            raise ValueError('Position of update must not exceed \
+                dimensionality of state.')
         if not isinstance(loc_update, int):
             raise TypeError('Value of location of update must be integer.')
 
         # Retain only the part of the state that parametrizes the sampler
         # i.e. X(-j)
-        conditional_part_of_state = current_state[-(loc_update-1)]
+        conditional_part_of_state = [
+            x for i, x in enumerate(
+                current_state.tolist()) if i != (loc_update-1)]
 
         # Return a draw from the sampler's probability distribution
-        return self.sampler_pdf(*conditional_part_of_state)
+        current_state[loc_update-1] = self.sampler_pdf(
+            self.cond_func(conditional_part_of_state))
+
+        return current_state
