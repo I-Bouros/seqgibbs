@@ -79,7 +79,7 @@ class OneDimSampler():
                 current_state.tolist()) if i != (loc_update-1)]
 
         # Return a draw from the sampler's probability distribution
-        current_state[loc_update-1] = self.sampler_pdf(
-            self.cond_func(conditional_part_of_state))
+        args = self.cond_func(conditional_part_of_state)
+        current_state[loc_update-1] = self.sampler_pdf(*args)
 
         return current_state

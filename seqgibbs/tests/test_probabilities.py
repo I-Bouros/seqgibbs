@@ -14,6 +14,15 @@ import numpy.testing as npt
 import seqgibbs as gibbs
 
 
+def fun(x):
+    """
+    Function returning the parameters of the normal sampler.
+        mean = sum of elements of x
+        variance = product of the elemets of x.
+    """
+    return sum(x), np.prod(x)
+
+
 class TestOneDimSamplerClass(unittest.TestCase):
     """
     Test the 'OneDimSampler' class.
@@ -28,7 +37,7 @@ class TestOneDimSamplerClass(unittest.TestCase):
             gibbs.OneDimSampler(scipy.stats.norm.rvs, 0)
 
     def test_sample(self):
-        sampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, sum)
+        sampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, fun)
         current_state = np.array([1, 2, 0])
         loc_update = 3
 
