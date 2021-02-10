@@ -13,9 +13,3 @@ Monodimensional Sampler
 
 .. autoclass:: OneDimSampler
   :members:
-
-Local and Imported Branch Process model
-***************************************
-
-.. autoclass:: LocImpBranchProModel
-  :members:
