@@ -57,3 +57,6 @@ class TestOneDimSamplerClass(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             sampler.sample(np.array([[0, 0], [0, 0]]), '1')
+
+        with self.assertRaises(ValueError):
+            sampler.sample(np.array([[0, 0], [0, 0]]), 0)

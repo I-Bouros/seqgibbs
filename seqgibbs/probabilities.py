@@ -40,10 +40,12 @@ class OneDimSampler():
 
     def __init__(self, sampler_func_name, condition_func_name):
         if not callable(sampler_func_name):
-            raise TypeError('The probability distribution of the \
+            raise TypeError(
+                'The probability distribution of the \
                 sampler needs to be a function.')
         if not callable(condition_func_name):
-            raise TypeError('The parametrization function of the \
+            raise TypeError(
+                'The parametrization function of the \
                 sampler needs to be a function.')
         self.sampler_pdf = sampler_func_name
         self.cond_func = condition_func_name
@@ -67,10 +69,13 @@ class OneDimSampler():
             raise ValueError(
                 'Current state values storage format must be 1-dimensional')
         if len(current_state) < loc_update:
-            raise ValueError('Position of update must not exceed \
+            raise ValueError(
+                'Position of update must not exceed \
                 dimensionality of state.')
         if not isinstance(loc_update, int):
             raise TypeError('Value of location of update must be integer.')
+        if loc_update < 1:
+            raise TypeError('Value of location of update must be positive.')
 
         # Retain only the part of the state that parametrizes the sampler
         # i.e. X(-j)
