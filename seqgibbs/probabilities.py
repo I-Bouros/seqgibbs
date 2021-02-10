@@ -6,38 +6,64 @@
 # under the MIT license. See accompanying LICENSE.md for copyright
 # notice and full license details.
 #
-# import numpy as np
+import numpy as np
 
 
 class OneDimSampler():
     r"""OneDimSampler Class:
-    Class for the models following a Branching Processes behaviour.
+    Class for the transition kernels of the dimensions of the states
+    taken one at a time as in a Gibbs Sampler .
 
-    In the branching process model, we track the number of cases
-    registered each day, I_t, also known as the "incidence" at time t.
+    In the Gibbs Sampler scenario, we update each dimension of the data
+    at a time according to a probability distribution conditional only
+    on the current values of the other dimension of the state at which we
+    are at.
 
-    The incidence at time t is modelled by a random variable distributed
-    according to a Poisson distribution with a mean that depends on previous
-    number of cases, according to the following formula:
+    This means that if at the current step we aim to update the jth dimension
+    we do it according to the following formula:
 
     .. math::
-        E(I_{t}^{\text(local)}|I_0, I_1, \dots I_{t-1}, w_{s}, R_{t}) =
-            R_{t}\sum_{s=1}^{t}I_{t-s}w_{s}
-
-    Always apply method :meth:`set_r_profile` before calling
-    :meth:`BranchProModel.simulate` for a change of R_t profile!
+        X_{j}^{(t)} \sim \pi_{X_{j}|X_{j}}(\cdot|
+        X_{1}^{(t)}, \dots , X_{j-1}^{(t)}, X_{j+1}^{(t-1)},
+        \dots X_{d}^{(t-1)})
 
     Parameters
     ----------
-    initial_r
-        (numeric) Value of the reproduction number at the beginning
-        of the epidemic
-    serial_interval
-        (list) Unnormalised probability distribution of that the recipient
-        first displays symptoms s days after the infector first displays
-        symptoms.
+    sampler_func_name
+        (function) Probability Distribution used to sample new
+        value of state at the dimension we require.
 
     """
 
-    def __init__(self, initial_r, serial_interval):
-        pass
+    def __init__(self, sampler_func_name):
+        self.sampler_pdf = sampler_func_name
+
+    def sample(self, current_state, loc_update):
+        """
+        Set the righthand side (dx/dt) function
+        :param functionName: the function to plug in
+
+        Parameters
+        ----------
+        current_state
+            (array) Value of the current state the chain
+            produced by the Gibbs Sampler is at.
+        loc_update
+            (int) Position of the dimension to update of the state the chain
+            produced by the Gibbs Sampler.
+
+        """
+        if np.asarray(current_state).ndim != 1:
+            raise ValueError(
+                'Current state values storage format must be 1-dimensional')
+        if len(current_state) <= loc_update:
+            raise ValueError('Sum of serial interval values must be > 0.')
+        if not isinstance(loc_update, int):
+            raise TypeError('Value of location of update must be integer.')
+
+        # Retain only the part of the state that parametrizes the sampler
+        # i.e. X(-j)
+        conditional_part_of_state = current_state[-(loc_update-1)]
+
+        # Return a draw from the sampler's probability distribution
+        return self.sampler_pdf(*conditional_part_of_state)
