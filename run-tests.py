@@ -142,7 +142,7 @@ def doctest_rst_and_public_interface():
     # has been added to seqgibbs and should be imported above and included in
     # this list.
     seqgibbs_submodules = [
-        'seqgibbs.models',
+        'seqgibbs.probabilities',
         'seqgibbs.version_info',
         ]
 
