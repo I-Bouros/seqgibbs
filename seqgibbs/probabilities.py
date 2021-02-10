@@ -1,5 +1,5 @@
 #
-# ForwardModel Class
+# OneDimSampler Class
 #
 # This file is part of SEQGIBBS
 # (https://github.com/I-Bouros/seqgibbs.git) which is released
