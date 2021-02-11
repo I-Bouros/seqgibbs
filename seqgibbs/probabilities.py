@@ -34,7 +34,8 @@ class OneDimSampler():
         value of state at the dimension we require.
     condition_func_name
         (function) Function used to compute parameters of the Probability
-        Distribution used by the sampler based on the current state.
+        Distribution used by the sampler based on the current state. Operates
+        on numpy arrays.
 
     """
 
@@ -79,9 +80,9 @@ class OneDimSampler():
 
         # Retain only the part of the state that parametrizes the sampler
         # i.e. X(-j)
-        conditional_part_of_state = [
+        conditional_part_of_state = np.asarray([
             x for i, x in enumerate(
-                current_state.tolist()) if i != (loc_update-1)]
+                current_state.tolist()) if i != (loc_update-1)])
 
         # Return a draw from the sampler's probability distribution
         args = self.cond_func(conditional_part_of_state)
