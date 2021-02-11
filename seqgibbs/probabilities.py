@@ -23,7 +23,7 @@ class OneDimSampler():
     we do it according to the following formula:
 
     .. math::
-        X_{j}^{(t)} \sim \pi_{X_{j}|X_{j}}(\cdot|
+        X_{j}^{(t)} \sim \pi_{X_{j}|X_{-j}}(\cdot|
         X_{1}^{(t)}, \dots , X_{j-1}^{(t)}, X_{j+1}^{(t-1)},
         \dots X_{d}^{(t-1)})
 
