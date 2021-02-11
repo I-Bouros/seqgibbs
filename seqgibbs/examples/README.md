@@ -8,8 +8,7 @@ There are two ways in which an update of the state:
 
 As of yet, the ``seqgibbs`` module covers only algorithms working with blocks of dimensions-to-update of size 1. This means that if at the current step in the algorithm we aim to update the jth dimension we do it according to the following formula:
 
-```math::
-X_{j}^{(t)} \sim \pi_{X_{j}|X_{j}}(\cdot|X_{1}^{(t)}, \dots , X_{j-1}^{(t)}, X_{j+1}^{(t-1)},\dots X_{d}^{(t-1)})
+```<img src="https://render.githubusercontent.com/render/math?math=X_{j}^{(t)} \sim \pi_{X_{j}|X_{j}}(\cdot|X_{1}^{(t)}, \dots , X_{j-1}^{(t)}, X_{j+1}^{(t-1)},\dots X_{d}^{(t-1)})">
 ```
 
 Due to this feature, the Gibbs algorithms can also be viewed as a particular instances of one-at-a-time Metropolis-Hastings routine for sampling. Also, under particular conditions (known as *positivity condition*), it can be proven that the chain of samples we obtain via this class of algorithms admit as their invariant distribution the target distribution from which we want to sample, i.e. if we run our sampler for long enough, the draws will resemble those from our distribution of choice.
