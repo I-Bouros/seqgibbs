@@ -132,11 +132,11 @@ class SysGibbsAlgo():
         mode
             (str) The regime in which we run the Gibbs Sampler.
             Two alternatives:
-                - The ``restart`` mode restarts the chain from the initial
-                specified state and runs it for ``num_cycles`` steps.
-                - The ``continue`` mode runs the chain from the last known
-                state and continues to run it for an additional ``num_cycles``
-                steps.
+            - The ``restart`` mode restarts the chain from the initial
+            specified state and runs it for ``num_cycles`` steps.
+            - The ``continue`` mode runs the chain from the last known
+            state and continues to run it for an additional ``num_cycles``
+            steps.
         """
         # Read regime in which we run the Gibbs sampler
         if mode not in ['restart', 'continue']:
