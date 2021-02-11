@@ -13,21 +13,13 @@ from seqgibbs import OneDimSampler
 
 class SysGibbsAlgo():
     r"""SysGibbsAlgo Class:
-    Class for the transition kernels of the dimensions of the states
-    taken one at a time as in a Gibbs Sampler .
+    Class for the sampling algorithm known as the Gibbs Sampler which updates
+    the dimensions of the states in a systematic way, i.e. 1st, 2nd, and so on.
 
-    In the Gibbs Sampler scenario, we update each dimension of the data
+    In any Gibbs Sampler scenario, we update each dimension of the data
     at a time according to a probability distribution conditional only
-    on the current values of the other dimension of the state at which we
-    are at.
-
-    This means that if at the current step we aim to update the jth dimension
-    we do it according to the following formula:
-
-    .. math::
-        X_{j}^{(t)} \sim \pi_{X_{j}|X_{j}}(\cdot|
-        X_{1}^{(t)}, \dots , X_{j-1}^{(t)}, X_{j+1}^{(t-1)},
-        \dots X_{d}^{(t-1)})
+    on the current values of the other dimensions of the state at which we
+    are at, which we wrap up in a :meth:`OneDimSampler` object.
 
     Parameters
     ----------
@@ -37,6 +29,11 @@ class SysGibbsAlgo():
     initial_state
         (array) Value of the initial state the chain
         produced by the Gibbs Sampler is at.
+
+    Notes
+    -----
+    Always apply method add_1_d_sampler before calling
+    run to load a sampler used for the update of each dimension!
 
     """
 
