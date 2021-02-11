@@ -11,7 +11,7 @@ The seqgibbs source code is hosted on GitHub_.
 
 .. toctree::
    probabilities
-   
+   samplers
 
 
 Search
