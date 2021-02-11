@@ -88,4 +88,4 @@ class OneDimSampler():
         args = self.cond_func(conditional_part_of_state)
         current_state[loc_update-1] = self.sampler_pdf(*args)
 
-        return current_state
+        return np.asarray(current_state)
