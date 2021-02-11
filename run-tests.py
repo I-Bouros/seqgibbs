@@ -143,6 +143,7 @@ def doctest_rst_and_public_interface():
     # this list.
     seqgibbs_submodules = [
         'seqgibbs.probabilities',
+        'seqgibbs.samplers',
         'seqgibbs.version_info',
         ]
 
