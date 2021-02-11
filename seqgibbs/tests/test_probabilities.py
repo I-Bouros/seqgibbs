@@ -18,9 +18,9 @@ def fun(x):
     """
     Function returning the parameters of the normal sampler.
         mean = sum of elements of x
-        variance = product of the elements of x.
+        variance = exponential of the product of the elements of x.
     """
-    return np.sum(x), np.prod(x)
+    return np.sum(x), np.exp(np.prod(x))
 
 
 class TestOneDimSamplerClass(unittest.TestCase):

@@ -17,10 +17,19 @@ import seqgibbs as gibbs
 def fun(x):
     """
     Function returning the parameters of the normal sampler.
-        mean = sum of elements of x
-        variance = product of the elemets of x.
+        mean = product of elements of x
+        variance = exponetial of first dimension of x.
     """
-    return sum(x), np.prod(x)
+    return np.prod(x), np.exp(x[0])
+
+
+def another_fun(x):
+    """
+    Function returning the parameters of the normal sampler.
+        mean = sum of elements of x
+        variance = exponetial of first dimension of x.
+    """
+    return np.sum(x), np.exp(x[0])
 
 
 class TestSysGibbsAlgoClass(unittest.TestCase):
@@ -28,35 +37,80 @@ class TestSysGibbsAlgoClass(unittest.TestCase):
     Test the 'SysGibbsAlgo' class.
     """
     def test__init__(self):
-        gibbs.SysGibbsAlgo(scipy.stats.norm.rvs, sum)
+        sampler = gibbs.SysGibbsAlgo(num_dim=2)
+
+        self.assertEqual(sampler.num_dim, 2)
+        self.assertEqual(len(sampler.one_d_samplers), 0)
+        self.assertEqual(len(sampler.chain_states), 1)
+        npt.assert_array_equal(sampler.initial_state, np.zeros(2))
+        npt.assert_array_equal(sampler.current_state, np.zeros(2))
 
         with self.assertRaises(TypeError):
-            gibbs.OneDimSampler(0, sum)
+            gibbs.SysGibbsAlgo('0', np.ones(2))
+
+        with self.assertRaises(ValueError):
+            gibbs.SysGibbsAlgo(0, np.ones(2))
+
+        with self.assertRaises(ValueError):
+            gibbs.SysGibbsAlgo(3, np.ones(2))
+
+        with self.assertRaises(ValueError):
+            gibbs.SysGibbsAlgo(3, [[1], [2]])
+
+    def test_change_initial_state(self):
+        sampler = gibbs.SysGibbsAlgo(num_dim=2)
+        sampler.change_initial_state(new_state=np.array([2, 0]))
+
+        npt.assert_array_equal(sampler.initial_state, np.array([2, 0]))
+
+        with self.assertRaises(ValueError):
+            sampler.change_initial_state(new_state=np.array([[1], [2]]))
+
+        with self.assertRaises(ValueError):
+            sampler.change_initial_state(new_state=np.array([1, 2, 0]))
+
+    def test_add_1_d_sampler(self):
+        sampler = gibbs.SysGibbsAlgo(num_dim=2, initial_state=np.array([2, 3]))
+        new_1_d_sampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, fun)
+
+        sampler.add_1_d_sampler(new_1_d_sampler)
+        self.assertEqual(len(sampler.one_d_samplers), 1)
 
         with self.assertRaises(TypeError):
-            gibbs.OneDimSampler(scipy.stats.norm.rvs, 0)
+            sampler.add_1_d_sampler(0)
 
-    def test_sample(self):
-        sampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, fun)
-        current_state = np.array([1, 2, 0])
-        loc_update = 3
+    def test_run(self):
+        sampler = gibbs.SysGibbsAlgo(num_dim=2, initial_state=np.array([2, 3]))
 
-        new_state = sampler.sample(current_state, loc_update)
-        conditional_part_of_state = np.array([
-            x for i, x in enumerate(
-                new_state.tolist()) if i != (loc_update-1)])
+        # Feed in the two partial conditional samplers
+        first_1_d_sampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, fun)
+        second_1_d_sampler = gibbs.OneDimSampler(
+            scipy.stats.norm.rvs, another_fun)
 
-        self.assertEqual(len(new_state), len(current_state))
-        npt.assert_array_equal(conditional_part_of_state, np.array([1, 2]))
+        sampler.add_1_d_sampler(first_1_d_sampler)
+        sampler.add_1_d_sampler(second_1_d_sampler)
+
+        # Run 3 complete scan cycles of the algorithm
+        sampler.run(num_cycles=3)
+        last_state = sampler.chain_states[-1]
+
+        self.assertEqual(len(sampler.chain_states), 4)
+        self.assertEqual(len(last_state), len(sampler.initial_state))
+        npt.assert_array_equal(last_state, sampler.current_state)
+
+        # Run 3 more complete scan cycles of the algorithm
+        sampler.run(num_cycles=3, mode='continue')
+        self.assertEqual(len(sampler.chain_states), 7)
+
+        # Rerun for 3 complete scan cycles of the algorithm
+        sampler.run(num_cycles=3, mode='restart')
+        self.assertEqual(len(sampler.chain_states), 4)
 
         with self.assertRaises(ValueError):
-            sampler.sample(np.array([[0, 0], [0, 0]]), 1)
+            sampler.run(num_cycles=3, mode='0')
 
-        with self.assertRaises(ValueError):
-            sampler.sample(np.array([[0, 0], [0, 0]]), 3)
+        with self.assertRaises(TypeError):
+            sampler.run(num_cycles=3.5)
 
-        with self.assertRaises(ValueError):
-            sampler.sample(np.array([[0, 0], [0, 0]]), '1')
-
-        with self.assertRaises(ValueError):
-            sampler.sample(np.array([[0, 0], [0, 0]]), 0)
+        with self.assertRaises(TypeError):
+            sampler.run(num_cycles=0, mode='restart')
