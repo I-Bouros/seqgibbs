@@ -16,7 +16,7 @@ class OneDimSampler():
 
     In the Gibbs Sampler scenario, we update each dimension of the data
     at a time according to a probability distribution conditional only
-    on the current values of the other dimension of the state at which we
+    on the current values of the other dimensions of the state at which we
     are at.
 
     This means that if at the current step we aim to update the jth dimension
