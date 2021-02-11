@@ -18,7 +18,7 @@ def fun(x):
     """
     Function returning the parameters of the normal sampler.
         mean = sum of elements of x
-        variance = product of the elemets of x.
+        variance = product of the elements of x.
     """
     return sum(x), np.prod(x)
 
@@ -28,7 +28,10 @@ class TestOneDimSamplerClass(unittest.TestCase):
     Test the 'OneDimSampler' class.
     """
     def test__init__(self):
-        gibbs.OneDimSampler(scipy.stats.norm.rvs, sum)
+        onedsampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, sum)
+
+        self.assertEqual(onedsampler.cond_func, sum)
+        self.assertEqual(onedsampler.sampler_pdf, scipy.stats.norm.rvs)
 
         with self.assertRaises(TypeError):
             gibbs.OneDimSampler(0, sum)
