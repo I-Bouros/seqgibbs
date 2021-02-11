@@ -20,7 +20,7 @@ def fun(x):
         mean = sum of elements of x
         variance = product of the elements of x.
     """
-    return sum(x), np.prod(x)
+    return np.sum(x), np.prod(x)
 
 
 class TestOneDimSamplerClass(unittest.TestCase):
