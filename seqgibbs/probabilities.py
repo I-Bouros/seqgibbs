@@ -1,5 +1,5 @@
 #
-# ForwardModel Class
+# OneDimSampler Class
 #
 # This file is part of SEQGIBBS
 # (https://github.com/I-Bouros/seqgibbs.git) which is released
@@ -16,7 +16,7 @@ class OneDimSampler():
 
     In the Gibbs Sampler scenario, we update each dimension of the data
     at a time according to a probability distribution conditional only
-    on the current values of the other dimension of the state at which we
+    on the current values of the other dimensions of the state at which we
     are at.
 
     This means that if at the current step we aim to update the jth dimension
@@ -34,16 +34,19 @@ class OneDimSampler():
         value of state at the dimension we require.
     condition_func_name
         (function) Function used to compute parameters of the Probability
-        Distribution used by the sampler based on the current state.
+        Distribution used by the sampler based on the current state. Operates
+        on numpy arrays.
 
     """
 
     def __init__(self, sampler_func_name, condition_func_name):
         if not callable(sampler_func_name):
-            raise TypeError('The probability distribution of the \
+            raise TypeError(
+                'The probability distribution of the \
                 sampler needs to be a function.')
         if not callable(condition_func_name):
-            raise TypeError('The parametrization function of the \
+            raise TypeError(
+                'The parametrization function of the \
                 sampler needs to be a function.')
         self.sampler_pdf = sampler_func_name
         self.cond_func = condition_func_name
@@ -67,19 +70,22 @@ class OneDimSampler():
             raise ValueError(
                 'Current state values storage format must be 1-dimensional')
         if len(current_state) < loc_update:
-            raise ValueError('Position of update must not exceed \
+            raise ValueError(
+                'Position of update must not exceed \
                 dimensionality of state.')
         if not isinstance(loc_update, int):
             raise TypeError('Value of location of update must be integer.')
+        if loc_update < 1:
+            raise TypeError('Value of location of update must be positive.')
 
         # Retain only the part of the state that parametrizes the sampler
         # i.e. X(-j)
-        conditional_part_of_state = [
+        conditional_part_of_state = np.asarray([
             x for i, x in enumerate(
-                current_state.tolist()) if i != (loc_update-1)]
+                current_state.tolist()) if i != (loc_update-1)])
 
         # Return a draw from the sampler's probability distribution
         args = self.cond_func(conditional_part_of_state)
         current_state[loc_update-1] = self.sampler_pdf(*args)
 
-        return current_state
+        return np.asarray(current_state)

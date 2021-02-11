@@ -18,9 +18,9 @@ def fun(x):
     """
     Function returning the parameters of the normal sampler.
         mean = sum of elements of x
-        variance = product of the elemets of x.
+        variance = exp(|x|)/(1+exp(|x|))
     """
-    return sum(x), np.prod(x)
+    return np.sum(x), np.exp(np.sum(x))/(np.exp(np.sum(x))+1)
 
 
 class TestOneDimSamplerClass(unittest.TestCase):
@@ -28,7 +28,10 @@ class TestOneDimSamplerClass(unittest.TestCase):
     Test the 'OneDimSampler' class.
     """
     def test__init__(self):
-        gibbs.OneDimSampler(scipy.stats.norm.rvs, sum)
+        onedsampler = gibbs.OneDimSampler(scipy.stats.norm.rvs, sum)
+
+        self.assertEqual(onedsampler.cond_func, sum)
+        self.assertEqual(onedsampler.sampler_pdf, scipy.stats.norm.rvs)
 
         with self.assertRaises(TypeError):
             gibbs.OneDimSampler(0, sum)
@@ -57,3 +60,6 @@ class TestOneDimSamplerClass(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             sampler.sample(np.array([[0, 0], [0, 0]]), '1')
+
+        with self.assertRaises(ValueError):
+            sampler.sample(np.array([[0, 0], [0, 0]]), 0)
