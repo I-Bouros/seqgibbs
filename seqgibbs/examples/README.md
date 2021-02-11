@@ -8,7 +8,7 @@ There are two ways in which an update of the state:
 
 As of yet, the ``seqgibbs`` module covers only algorithms working with blocks of dimensions-to-update of size 1. This means that if at the current step in the algorithm we aim to update the jth dimension we do it according to the following formula:
 
-```math
+```math::
 X_{j}^{(t)} \sim \pi_{X_{j}|X_{j}}(\cdot|X_{1}^{(t)}, \dots , X_{j-1}^{(t)}, X_{j+1}^{(t-1)},\dots X_{d}^{(t-1)})
 ```
 
