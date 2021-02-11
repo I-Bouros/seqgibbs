@@ -3,7 +3,7 @@
 Gibbs Algorithm is a sampling algorithm for multidimensional data. It invariably assumes that at all times one or a block of dimensions are updated according to a probability distribution which depends only on the values of the other dimensions of the state at that sampling time. 
 
 There are two ways in which an update of the state:
-- update each block of the dimensions in a particular order, at each update using the update dimensions of the state (*the Systematic Scan regime*)
+- update each block of the dimensions in a particular order, at each update using the current values of the other dimensions of the state (*the Systematic Scan regime*)
 - randomly choose which block of dimensions to update, keeping all others fixed (*the Random Scan regime*).
 
 As of yet, the ``seqgibbs`` module covers only algorithms working with blocks of dimensions-to-update of size 1. This means that if at the current step in the algorithm we aim to update the jth dimension we do it according to the following formula:
