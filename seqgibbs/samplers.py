@@ -81,7 +81,7 @@ class SysGibbsAlgo():
                 'New initial state does not have stated \
                 dimension size.')
 
-        self.initial_state = new_state
+        self.initial_state = np.asarray(new_state)
 
     def add_1_d_sampler(self, new_sampler):
         """
@@ -187,8 +187,8 @@ class RandGibbsAlgo(SysGibbsAlgo):
         (array) Value of the initial state the chain
         produced by the Gibbs Sampler is at.
     dimen_prob
-        (list) List of probabilities for choosing dimension to
-        update in the sampling routine.
+        (list) Unormalised list of probabilities for choosing dimension
+        to update in the sampling routine.
 
     Notes
     -----
@@ -201,7 +201,7 @@ class RandGibbsAlgo(SysGibbsAlgo):
 
         # Import from SysGibbsAlgo class
         super().__init__(
-            num_dim, initial_state, dimen_prob)
+            num_dim, initial_state)
 
         # If no probabilities for choice of update provide, assume uniform.
         if dimen_prob is None:
@@ -215,7 +215,7 @@ class RandGibbsAlgo(SysGibbsAlgo):
             raise ValueError('Given update probability distribution do not \
                 have stated dimension size.')
 
-        self.dimen_prob = np.asarray(dimen_prob)
+        self.dimen_prob = np.asarray(dimen_prob)/np.sum(np.asarray(dimen_prob))
 
     def change_dimen_prob(self, new_probs):
         """
@@ -225,8 +225,8 @@ class RandGibbsAlgo(SysGibbsAlgo):
         Parameters
         ----------
         new_probs
-            (array) Value of the new probabilities for dimension update of the
-            chain produced by the Gibbs Sampler is at.
+            (array) Unormalised list of the new probabilities for dimension
+            update of the chain produced by the Gibbs Sampler is at.
 
         """
         if np.asarray(new_probs).ndim != 1:
@@ -238,7 +238,7 @@ class RandGibbsAlgo(SysGibbsAlgo):
                 'New update probability distribution does not have stated \
                 dimension size.')
 
-        self.dimen_prob = new_probs
+        self.dimen_prob = np.asarray(new_probs)/np.sum(np.asarray(new_probs))
 
     def _one_cycle_routine(self):
         """
@@ -250,10 +250,12 @@ class RandGibbsAlgo(SysGibbsAlgo):
 
         """
         # Updates one of the dimensions 1, 2, ... d at random.
-        # Uses the jth unidimensional sampler to update jth dimension.
         current_state = np.copy(self.current_state)
 
-        j = np.random.choice(self.num_dim, 1, p=self.dimen_prob)
+        # Pick jth dimension randomly to update.
+        j = np.random.choice(self.num_dim, 1, p=self.dimen_prob)[0].item()
+
+        # Uses the jth unidimensional sampler to update jth dimension.
         current_state = self.one_d_samplers[j].sample(current_state, j+1)
 
         self.current_state = current_state
