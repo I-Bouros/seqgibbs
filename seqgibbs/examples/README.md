@@ -14,7 +14,7 @@ As of yet, the ``seqgibbs`` module covers only algorithms working with blocks of
 
 Due to this feature, the Gibbs algorithms can also be viewed as a particular instances of one-at-a-time Metropolis-Hastings routine for sampling. Also, under particular conditions (known as *positivity condition*), it can be proven that the chain of samples we obtain via this class of algorithms admit as their invariant distribution the target distribution from which we want to sample, i.e. if we run our sampler for long enough, the draws will resemble those from our distribution of choice.
 
-Of course, this type of algorithm is only possible and feasible to implement when it is possible to sample from the partial conditional distributions &pi;<sub>X<sub>j</sub>|<sub>-j</sub></sub> with realtive more ease than for the target &pi;. If this is not the case, then it is recommended to use other methods for sampling.
+Of course, this type of algorithm is only possible and feasible to implement when it is possible to sample from the partial conditional distributions &pi;<sub>X<sub>j</sub>|X<sub>-j</sub></sub> with realtive more ease than for the target &pi;. If this is not the case, then it is recommended to use other methods for sampling.
 
 Here are some Jupyter Notebook examples of the different functionalities offered by the seqgibbs module:
 
