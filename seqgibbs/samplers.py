@@ -7,6 +7,7 @@
 # notice and full license details.
 #
 import numpy as np
+
 from seqgibbs import OneDimSampler
 
 
@@ -43,7 +44,13 @@ class SysGibbsAlgo():
         if not isinstance(num_dim, int):
             raise TypeError('Number of dimension of state must be integer.')
         if num_dim < 1:
-            raise TypeError('Number of dimension of state must be positive.')
+            raise ValueError('Number of dimension of state must be positive.')
+
+        # If no initial state is provided, assume zeros in all positions.
+        if initial_state is None:
+            initial_state = np.zeros(num_dim)
+
+        # If provided, then check
         if np.asarray(initial_state).ndim != 1:
             raise ValueError(
                 'Initial state storage format must be 1-dimensional')
@@ -51,15 +58,11 @@ class SysGibbsAlgo():
             raise ValueError('Given initial state does not have stated \
                 dimension size.')
 
-        # If no initial state is provided, assume zeros in all positions.
-        if initial_state is None:
-            initial_state = np.zeros(num_dim)
-
         self.num_dim = num_dim
-        self.initial_state = initial_state
-        self.current_state = initial_state
+        self.initial_state = np.asarray(initial_state)
+        self.current_state = np.copy(self.initial_state)
         self.one_d_samplers = []
-        self.chain_states = [initial_state]
+        self.chain_states = [self.initial_state.tolist()]
 
     def change_initial_state(self, new_state):
         """
@@ -75,7 +78,7 @@ class SysGibbsAlgo():
         if np.asarray(new_state).ndim != 1:
             raise ValueError(
                 'New state values storage format must be 1-dimensional')
-        if len(new_state) < self.num_dim:
+        if len(new_state) != self.num_dim:
             raise ValueError(
                 'New initial state does not have stated \
                 dimension size.')
@@ -101,7 +104,7 @@ class SysGibbsAlgo():
 
         self.one_d_samplers.append(new_sampler)
 
-    def one_cycle_routine(self):
+    def _one_cycle_routine(self):
         """
         Run one complete systematic scan update cycle of all the dimensions
         of the current state. Each dimension updates using one of
@@ -110,11 +113,13 @@ class SysGibbsAlgo():
         """
         # Updates dimensions 1, 2, ... d in order.
         # Uses the jth unidimensional sampler to update jth dimension.
-        for j in range(self.num_dim):
-            self.current_state[j] = self.one_d_samplers[j].sample(
-                self.current_state, j)
+        current_state = np.copy(self.current_state)
 
-        return self.current_state
+        for j in range(self.num_dim):
+            current_state = self.one_d_samplers[j].sample(
+                current_state, j+1)
+
+        self.current_state = current_state
 
     def run(self, num_cycles, mode='restart'):
         """
@@ -148,12 +153,13 @@ class SysGibbsAlgo():
 
         if mode == 'restart':
             # Restart chain from inital state
-            self.chain_states = [self.initial_state]
-            self.current_state = self.initial_state
+            self.chain_states = [self.initial_state.tolist()]
+            self.current_state = np.copy(self.initial_state)
 
         # Run cycle routine num_cyles times
         for c in range(num_cycles):
-            self.chain_states.append(self.one_cycle_routine())
+            self._one_cycle_routine()
+            self.chain_states.append(self.current_state.tolist())
 
         # Return full chain of states
         return self.chain_states
