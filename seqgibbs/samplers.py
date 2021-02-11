@@ -7,6 +7,7 @@
 # notice and full license details.
 #
 import numpy as np
+import numpy.random
 
 from seqgibbs import OneDimSampler
 
@@ -68,7 +69,7 @@ class SysGibbsAlgo():
         Parameters
         ----------
         new_state
-            (array) Value of the new initial state the chain
+            (array) Value of the new initial state of the chain
             produced by the Gibbs Sampler is at.
 
         """
@@ -80,7 +81,7 @@ class SysGibbsAlgo():
                 'New initial state does not have stated \
                 dimension size.')
 
-        self.initial_state = new_state
+        self.initial_state = np.asarray(new_state)
 
     def add_1_d_sampler(self, new_sampler):
         """
@@ -160,3 +161,101 @@ class SysGibbsAlgo():
 
         # Return full chain of states
         return self.chain_states
+
+
+#
+# RandGibbsAlgo Class
+#
+
+class RandGibbsAlgo(SysGibbsAlgo):
+    r"""RandGibbsAlgo Class:
+    Class for the sampling algorithm known as the Gibbs Sampler which updates
+    the dimensions of the states in a random way, using a probability
+    distribution.
+
+    In any Gibbs Sampler scenario, we update each dimension of the data
+    at a time according to a probability distribution conditional only
+    on the current values of the other dimensions of the state at which we
+    are at, which we wrap up in a :meth:`OneDimSampler` object.
+
+    Parameters
+    ----------
+    num_dim
+        (integer) Number of dimensions of the states the chain
+        produced using the Gibbs Sampler is at.
+    initial_state
+        (array) Value of the initial state the chain
+        produced by the Gibbs Sampler is at.
+    dimen_prob
+        (list) Unormalised list of probabilities for choosing dimension
+        to update in the sampling routine.
+
+    Notes
+    -----
+    Always apply method add_1_d_sampler before calling
+    run to load a sampler used for the update of each dimension!
+
+    """
+    def __init__(
+            self, num_dim, initial_state=None, dimen_prob=None):
+
+        # Import from SysGibbsAlgo class
+        super().__init__(
+            num_dim, initial_state)
+
+        # If no probabilities for choice of update provide, assume uniform.
+        if dimen_prob is None:
+            dimen_prob = np.ones(num_dim)
+
+        # If provided, then check
+        if np.asarray(dimen_prob).ndim != 1:
+            raise ValueError(
+                'Update probabilities storage format must be 1-dimensional')
+        if len(dimen_prob) != num_dim:
+            raise ValueError('Given update probability distribution do not \
+                have stated dimension size.')
+
+        self.dimen_prob = np.asarray(dimen_prob)/np.sum(np.asarray(dimen_prob))
+
+    def change_dimen_prob(self, new_probs):
+        """
+        Change probabilities for dimension update of the chain we sample using
+        Gibbs algorithm.
+
+        Parameters
+        ----------
+        new_probs
+            (array) Unormalised list of the new probabilities for dimension
+            update of the chain produced by the Gibbs Sampler is at.
+
+        """
+        if np.asarray(new_probs).ndim != 1:
+            raise ValueError(
+                'New update probability distribution storage format must be \
+                    1-dimensional')
+        if len(new_probs) != self.num_dim:
+            raise ValueError(
+                'New update probability distribution does not have stated \
+                dimension size.')
+
+        self.dimen_prob = np.asarray(new_probs)/np.sum(np.asarray(new_probs))
+
+    def _one_cycle_routine(self):
+        """
+        Run one complete random scan update cycle of all the dimensions
+        of the current state. Only dimension updated at a time using one of
+        unidimensional samplers found in the list. The choice of simension to
+        update is made at random, using a weighted sampling. Return the new
+        state.
+
+        """
+        # Updates one of the dimensions 1, 2, ... d at random.
+        current_state = np.copy(self.current_state)
+
+        # Pick jth dimension randomly to update.
+        j = np.random.choice(self.num_dim, 1, p=self.dimen_prob)[0].item()
+
+        # Uses the jth unidimensional sampler to update jth dimension.
+        current_state = self.one_d_samplers[j].sample(current_state, j+1)
+
+        self.current_state = current_state
