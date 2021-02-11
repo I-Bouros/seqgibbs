@@ -17,4 +17,4 @@ from .version_info import VERSION_INT, VERSION  # noqa
 
 # Import main classes
 from .probabilities import OneDimSampler    # noqa
-from .samplers import SysGibbsAlgo    # noqa
+from .samplers import SysGibbsAlgo, RandGibbsAlgo    # noqa
