@@ -15,6 +15,4 @@ This is the documentation for the implementation of two Sequential Gibbs Samplin
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
