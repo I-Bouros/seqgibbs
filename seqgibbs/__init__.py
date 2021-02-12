@@ -2,7 +2,7 @@
 # Root of the seqgibbs module.
 # Provides access to all shared functionality (models, simulation, etc.).
 #
-# This file is part of BRANCHPRO
+# This file is part of SEQGIBBS
 # (https://github.com/I-Bouros/seqgibbs.git) which is released
 # under the MIT license. See accompanying LICENSE.md for copyright
 # notice and full license details.
