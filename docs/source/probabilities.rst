@@ -12,4 +12,3 @@ Monodimensional Sampler
 ***********************
 
 .. autoclass:: OneDimSampler
-  :members:
