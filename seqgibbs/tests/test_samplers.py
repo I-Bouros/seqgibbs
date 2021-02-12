@@ -113,7 +113,7 @@ class TestSysGibbsAlgoClass(unittest.TestCase):
         with self.assertRaises(TypeError):
             sampler.run(num_cycles=3.5)
 
-        with self.assertRaises(TypeError):
+        with self.assertRaises(ValueError):
             sampler.run(num_cycles=0, mode='restart')
 
 

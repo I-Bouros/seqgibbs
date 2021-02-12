@@ -148,7 +148,7 @@ class SysGibbsAlgo():
         if not isinstance(num_cycles, int):
             raise TypeError('Number of cycles must be integer.')
         if num_cycles < 1:
-            raise TypeError('Number of cycles must be positive.')
+            raise ValueError('Number of cycles must be positive.')
 
         if mode == 'restart':
             # Restart chain from inital state
