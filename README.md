@@ -24,7 +24,7 @@ cd ../path/to/the/file
 A different method to install this is using `pip`:
 
 ```bash
-pip install seqgibbs
+pip install -i https://test.pypi.org/simple/ seqgibbs==0.0.1
 ```
 
 ## Usage
