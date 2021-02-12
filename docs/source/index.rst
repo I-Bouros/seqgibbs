@@ -10,6 +10,7 @@ The seqgibbs source code is hosted on GitHub_. This is a module for Sequential G
 
 
 .. toctree::
+
    probabilities
    samplers
 

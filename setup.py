@@ -44,6 +44,8 @@ setup(
 
     description='An implementation of two Sequential Gibbs Sampling algorithms.',  # noqa
 
+    long_description_content_type='text/markdown',
+
     long_description=get_readme(),
 
     license='MIT "New" or "Revised" License',
