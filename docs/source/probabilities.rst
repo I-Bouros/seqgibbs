@@ -6,10 +6,10 @@ Probabilities
 
 Overview:
 
-- :class:`seqgibbs.OneDimSampler`
+- :class:`OneDimSampler`
 
 Monodimensional Sampler
 ***********************
 
-.. autoclass:: seqgibbs.OneDimSampler
+.. autoclass:: OneDimSampler
   :members:
