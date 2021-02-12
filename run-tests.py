@@ -136,8 +136,6 @@ def doctest_rst_and_public_interface():
     # everything here for completeness. If a new module is added to seqgibbs
     # it should be imported here for this doctest.
     import seqgibbs
-    import seqgibbs.probabilities
-    import seqgibbs.samplers
 
     # If any modules other than these are exposed it may indicate that a module
     # has been inadvertently exposed in a public context, or that a new module
@@ -152,8 +150,6 @@ def doctest_rst_and_public_interface():
     doc_symbols = get_all_documented_symbols()
 
     check_exposed_symbols(seqgibbs, seqgibbs_submodules, doc_symbols)
-    check_exposed_symbols(seqgibbs.probabilities, [], doc_symbols)
-    check_exposed_symbols(seqgibbs.samplers, [], doc_symbols)
 
     print('All classes and methods are documented in an RST file, and all '
           'public interfaces are clean.')
