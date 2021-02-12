@@ -18,8 +18,8 @@ Of course, this type of algorithm is only possible and feasible to implement whe
 
 Here are some Jupyter Notebook examples of the different functionalities offered by the seqgibbs module:
 
-- [Case studies, good and bad, for running the Systematic Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/SABS-R3-Epidemiology/branchpro/blob/main/branchpro/examples/branchpro-first-notebook.ipynb)
+- [Case studies, good and bad, for running the Systematic Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/I-Bouros/seqgibbs/blob/main/seqgibbs/examples/sys_scan_gibbs.ipynb)
 
-- [Case studies, good and bad, for running the Random Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/SABS-R3-Epidemiology/branchpro/blob/main/branchpro/examples/french-flu-data.ipynb)
+- [Case studies, good and bad, for running the Random Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/I-Bouros/seqgibbs/blob/main/seqgibbs/examples/rand_scan_gibbs.ipynb)
 
 - [Comparison analysis of performance of Systematic vs Random Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/SABS-R3-Epidemiology/branchpro/blob/main/branchpro/examples/french-flu-data.ipynb)
