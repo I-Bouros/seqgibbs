@@ -76,7 +76,7 @@ class OneDimSampler():
         if not isinstance(loc_update, int):
             raise TypeError('Value of location of update must be integer.')
         if loc_update < 1:
-            raise TypeError('Value of location of update must be positive.')
+            raise ValueError('Value of location of update must be positive.')
 
         # Retain only the part of the state that parametrizes the sampler
         # i.e. X(-j)
