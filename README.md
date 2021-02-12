@@ -3,7 +3,7 @@
 ![Run Unit Tests on multiple OS](https://github.com/I-Bouros/seqgibbs/workflows/Run%20Unit%20Tests%20on%20multiple%20OS/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/seqgibbs/badge/?version=latest)](https://seqgibbs.readthedocs.io/en/latest/?badge=latest)
 
-An implementation of two Sequential Gibbs Sampling algorithms - Sustematic Scan and Random Scan.
+An implementation of two Sequential Gibbs Sampling algorithms - Systematic Scan and Random Scan.
 
 ## References
 [1] Wikipedia contributors. (2020, December 6). [Gibbs sampling](https://en.wikipedia.org/w/index.php?title=Gibbs_sampling&oldid=992631521). In Wikipedia, The Free Encyclopedia. Retrieved 10:36, February 12, 2021 
