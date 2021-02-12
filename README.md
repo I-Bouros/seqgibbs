@@ -13,3 +13,27 @@ An implementation of two Sequential Gibbs Sampling algorithms - Systematic Scan 
 [3] Whitley, N. (2008). Lectures 6 & 7: [The Gibbs Sampler](https://www.webpages.uidaho.edu/~stevel/565/U.%20Bristol/folien45.pdf). Department of Mathematics, University of Bristol.
 
 ## Installation procedure
+***
+One way to install the module is to download the repositiory to your machine of choice and type the following commands in the terminal. 
+```bash
+git clone https://github.com/I-Bouros/seqgibbs.git
+cd ../path/to/the/file
+```
+
+## Usage
+
+```python
+import seqgibbs
+
+s.pluralize('word') # returns 'words'
+foobar.pluralize('goose') # returns 'geese'
+foobar.singularize('phenomena') # returns 'phenomenon'
+```
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
