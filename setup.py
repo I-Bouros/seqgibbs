@@ -42,7 +42,7 @@ setup(
     # Version
     version=get_version(),
 
-    description='An implementation of a Sequential Gibbs Sampling algorithm.',  # noqa
+    description='An implementation of two Sequential Gibbs Sampling algorithms.',  # noqa
 
     long_description=get_readme(),
 
