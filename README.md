@@ -1,4 +1,6 @@
 # seqgibbs
+![Run Unit Tests on multiple python versions](https://github.com/I-Bouros/seqgibbs/workflows/Run%20Unit%20Tests%20on%20multiple%20python%20versions/badge.svg)
+![Run Unit Tests on multiple OS](https://github.com/I-Bouros/seqgibbs/workflows/Run%20Unit%20Tests%20on%20multiple%20OS/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/seqgibbs/badge/?version=latest)](https://seqgibbs.readthedocs.io/en/latest/?badge=latest)
 
 An implementation of two Sequential Gibbs Sampling algorithms - Sustematic Scan and Random Scan.
