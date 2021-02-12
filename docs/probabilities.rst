@@ -12,4 +12,4 @@ Unidimensional Sampler
 **********************
 
 .. autoclass:: OneDimSampler
-  :members:
+  :members: sample
