@@ -57,7 +57,8 @@ class SysGibbsAlgo():
                 dimension size.')
 
         self.num_dim = num_dim
-        self.initial_state = np.asarray(initial_state)
+        # ensure floats for the dimensional values
+        self.initial_state = np.asarray(initial_state, dtype='float32')
         self.current_state = np.copy(self.initial_state)
         self.one_d_samplers = []
         self.chain_states = [self.initial_state.tolist()]
@@ -81,7 +82,7 @@ class SysGibbsAlgo():
                 'New initial state does not have stated \
                 dimension size.')
 
-        self.initial_state = np.asarray(new_state)
+        self.initial_state = np.asarray(new_state, dtype='float32')
 
     def add_1_d_sampler(self, new_sampler):
         """
