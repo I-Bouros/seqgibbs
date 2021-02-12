@@ -6,7 +6,7 @@
 
 Welcome to seqgibbs's documentation!
 =====================================
-The seqgibbs source code is hosted on GitHub_.
+The seqgibbs source code is hosted on GitHub_. This is a module for Sequential Gibbs Sampling type of algorithms both Systematic Scan and Random Scan.
 
 
 .. toctree::
