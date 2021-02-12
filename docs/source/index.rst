@@ -6,6 +6,8 @@
 Welcome to seqgibbs's documentation!
 ====================================
 
+This is the documentation for the implementation of two Sequential Gibbs Sampling algorithms - Systematic scan and Random Scan, as well as the implementation of unidimensional samplers.
+
 .. toctree::
    probabilities
    samplers
