@@ -20,14 +20,26 @@ git clone https://github.com/I-Bouros/seqgibbs.git
 cd ../path/to/the/file
 ```
 
+A different method to install this is using `pip`:
+
+```bash
+pip install seqgibbs
+```
+
 ## Usage
 
 ```python
 import seqgibbs
 
-s.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+# create a unidimensional sampler sampling from a normal distribution with parameters wrapped by 'fun'
+seqgibbs.OneDimSampler(scipy.stats.norm.rvs, fun)
+
+# create Systematic Scan Gibbs sampler for bidimensional data, starting at the default position (origin)
+seqgibbs.SysGibbsAlgo(num_dim=2, initial_state=np.array([0, 0]))
+
+# create Random Scan Gibbs sampler for bidimensional data, starting at the default position (origin)
+# with the first coordinate twice as likely to update compared to the first.
+seqgibbs.RandGibbsAlgo(num_dim=2, initial_state=np.array([0, 0]), new_probs=np.array([2, 1]))
 ```
 
 ## Contributing
