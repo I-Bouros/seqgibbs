@@ -22,4 +22,4 @@ Here are some Jupyter Notebook examples of the different functionalities offered
 
 - [Case studies, good and bad, for running the Random Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/I-Bouros/seqgibbs/blob/main/seqgibbs/examples/rand_scan_gibbs.ipynb)
 
-- [Comparison analysis of performance of Systematic vs Random Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/SABS-R3-Epidemiology/branchpro/blob/main/branchpro/examples/french-flu-data.ipynb)
+- [Comparison analysis of performance of Systematic vs Random Scan Gibbs Sampler](https://nbviewer.jupyter.org/github/I-Bouros/seqgibbs/blob/main/seqgibbs/examples/comparison.ipynb)
