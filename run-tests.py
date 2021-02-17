@@ -2,7 +2,7 @@
 #
 # This file is part of SEQGIBBS
 # (https://github.com/I-Bouros/seqgibbs.git) which is released
-# under the BSD 3-clause license. See accompanying LICENSE for copyright
+# under the MIT license. See accompanying LICENSE for copyright
 # notice and full license details.
 #
 
