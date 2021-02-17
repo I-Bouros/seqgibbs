@@ -1,5 +1,5 @@
 .. seqgibbs documentation master file, created by
-   sphinx-quickstart on Fri Feb 12 17:55:00 2021.
+   sphinx-quickstart on Fri Feb 12 20:35:22 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -10,9 +10,7 @@ This is the documentation for the implementation of two Sequential Gibbs Samplin
 
 .. toctree::
    probabilities
-   samplers
-
-
+   sampler
 
 Indices and tables
 ==================
