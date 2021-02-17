@@ -3,7 +3,7 @@
 #
 # This file is part of SEQGIBBS
 # (https://github.com/I-Bouros/seqgibbs.git) which is released
-# under the MIT license. See accompanying LICENSE.md for copyright
+# under the MIT license. See accompanying LICENSE for copyright
 # notice and full license details.
 #
 import numpy as np
