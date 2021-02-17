@@ -245,7 +245,7 @@ class RandGibbsAlgo(SysGibbsAlgo):
         """
         Run one complete random scan update cycle of all the dimensions
         of the current state. Only dimension updated at a time using one of
-        unidimensional samplers found in the list. The choice of simension to
+        unidimensional samplers found in the list. The choice of dimension to
         update is made at random, using a weighted sampling. Return the new
         state.
 
