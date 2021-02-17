@@ -2,7 +2,7 @@
 #
 # This file is part of SEQGIBBS
 # (https://github.com/I-Bouros/seqgibbs.git) which is released
-# under the BSD 3-clause license. See accompanying LICENSE.md for copyright
+# under the BSD 3-clause license. See accompanying LICENSE for copyright
 # notice and full license details.
 #
 
@@ -30,7 +30,7 @@ def run_unit_tests():
 # https://github.com/pints-team/pints/blob/master/run-tests.py
 def run_copyright_checks():
     """
-    Checks that the copyright year in LICENSE.md is up-to-date and that each
+    Checks that the copyright year in LICENSE is up-to-date and that each
     file contains the copyright header
     """
     print('\nChecking that copyright is up-to-date and complete.')
